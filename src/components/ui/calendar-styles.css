@@ -1,0 +1,48 @@
+/* Calendar Styling Fix - Selected Date Green, Current Date Light Gray */
+
+/* Current date styling - Light gray */
+.calendar [data-date="today"],
+.calendar .today,
+.calendar button[aria-pressed="false"][aria-label*="today"] {
+  background-color: #d1d5db; /* Light gray */
+  color: #374151;
+  font-weight: normal;
+}
+
+.calendar [data-date="today"]:hover,
+.calendar .today:hover {
+  background-color: #c3cad3; /* Slightly darker gray on hover */
+}
+
+/* Selected date styling - Green */
+.calendar [aria-pressed="true"],
+.calendar .selected,
+.calendar button[aria-pressed="true"],
+.calendar [data-selected="true"] {
+  background-color: #10b981; /* Green */
+  color: white;
+  font-weight: 600;
+}
+
+.calendar [aria-pressed="true"]:hover,
+.calendar .selected:hover {
+  background-color: #059669; /* Darker green on hover */
+}
+
+/* Calendar button styling */
+.calendar button {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Ensure date cells have proper styling */
+.calendar td button {
+  width: 100%;
+  padding: 8px 4px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+.calendar td button:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: -2px;
+}

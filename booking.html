@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RACEX ATV - Responsive Booking</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #1a1a1a; color: #fff; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: #000; padding: 20px; text-align: center; border-bottom: 3px solid #ff6b00; }
+        .header h1 { font-size: clamp(24px, 5vw, 36px); color: #ff6b00; }
+        
+        /* STEPS - RESPONSIVE COMPACT */
+        .steps { display: flex; gap: 4px; margin: 20px 0; flex-wrap: wrap; }
+        .step { flex: 1; min-width: 60px; padding: 12px 8px; background: #333; border-radius: 6px; text-align: center; cursor: pointer; font-size: clamp(10px, 2.5vw, 14px); font-weight: 600; border: 2px solid #555; transition: 0.3s; }
+        .step.active { background: #ff6b00; border-color: #ff6b00; color: #000; }
+        .step.done { background: #00c853; }
+        .step:hover { border-color: #ff6b00; }
+        
+        /* CONTENT AREA */
+        .content { background: #222; padding: 20px; border-radius: 8px; margin: 20px 0; min-height: 300px; }
+        .content h2 { color: #ff6b00; margin-bottom: 15px; font-size: clamp(16px, 4vw, 24px); }
+        .form-group { margin: 12px 0; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: clamp(12px, 2vw, 14px); color: #aaa; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; background: #333; border: 1px solid #555; color: #fff; border-radius: 4px; }
+        
+        /* BUTTONS */
+        .buttons { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .btn { flex: 1; min-width: 100px; padding: 12px; border: none; border-radius: 6px; font-size: clamp(12px, 2vw, 14px); font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-prev { background: #555; color: #fff; }
+        .btn-prev:hover { background: #666; }
+        .btn-next { background: #ff6b00; color: #000; flex: 2; }
+        .btn-next:hover { background: #ff8533; }
+        .btn-next:disabled { background: #666; cursor: not-allowed; }
+        
+        /* RESPONSIVE: Mobile */
+        @media (max-width: 600px) {
+            .steps { gap: 2px; }
+            .step { min-width: 50px; padding: 8px 4px; }
+            .container { padding: 10px; }
+            .content { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>RACEX ATV</h1>
+            <p>Responsive Booking Flow</p>
+        </div>
+        
+        <div class="steps" id="stepsContainer">
+            <div class="step active" onclick="goToStep(1)">1. Date</div>
+            <div class="step" onclick="goToStep(2)">2. Vehicul</div>
+            <div class="step" onclick="goToStep(3)">3. Riders</div>
+            <div class="step" onclick="goToStep(4)">4. ID</div>
+            <div class="step" onclick="goToStep(5)">5. Contract</div>
+            <div class="step" onclick="goToStep(6)">6. Confirm</div>
+        </div>
+        
+        <div class="content" id="contentArea"></div>
+        
+        <div class="buttons">
+            <button class="btn btn-prev" onclick="prevStep()">← Back</button>
+            <button class="btn btn-next" id="nextBtn" onclick="nextStep()">Next →</button>
+        </div>
+    </div>
+    
+    <script>
+        let currentStep = 1;
+        
+        const steps = {
+            1: { title: 'Step 1: Select Date & Time', content: '<form class="form-group"><label>Date:</label><input type="date"><label>Time:</label><select><option>09:00</option><option>10:00</option></select></form>' },
+            2: { title: 'Step 2: Choose Vehicle', content: '<form class="form-group"><label>Vehicle:</label><select><option>ATV 250cc</option><option>ATV 400cc</option></select></form>' },
+            3: { title: 'Step 3: Riders & Races', content: '<form class="form-group"><label>Number of Riders:</label><input type="number" min="1" max="4"></form>' },
+            4: { title: 'Step 4: Verify ID', content: '<form class="form-group"><label>ID Number:</label><input type="text"><label>Full Name:</label><input type="text"></form>' },
+            5: { title: 'Step 5: Contract Review', content: '<p>Accept T&C, Insurance, Liability Waiver</p><input type="checkbox"> I accept all terms' },
+            6: { title: 'Step 6: Confirm & Payment', content: '<p><strong>Total: 918.00 RON</strong></p><p>Click next to proceed to payment</p>' }
+        };
+        
+        function goToStep(step) { currentStep = step; render(); }
+        function nextStep() { if (currentStep < 6) { currentStep++; render(); } }
+        function prevStep() { if (currentStep > 1) { currentStep--; render(); } }
+        
+        function render() {
+            // Update steps UI
+            document.querySelectorAll('.step').forEach((el, idx) => {
+                const stepNum = idx + 1;
+                el.classList.toggle('active', stepNum === currentStep);
+                el.classList.toggle('done', stepNum < currentStep);
+            });
+            
+            // Update content
+            const step = steps[currentStep];
+            document.getElementById('contentArea').innerHTML = `<h2>${step.title}</h2>${step.content}`;
+            
+            // Update buttons
+            document.querySelector('.btn-prev').disabled = currentStep === 1;
+            document.getElementById('nextBtn').disabled = currentStep === 6;
+        }
+        
+        render();
+    </script>
+</body>
+</html>

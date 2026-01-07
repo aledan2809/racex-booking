@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+test<!DOCTYPE html>
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
@@ -6,41 +6,65 @@
     <title>RACEX ATV - Responsive Booking</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #1a1a1a; color: #fff; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .header { background: #000; padding: 20px; text-align: center; border-bottom: 3px solid #ff6b00; }
-        .header h1 { font-size: clamp(24px, 5vw, 36px); color: #ff6b00; }
-        
-        /* STEPS - RESPONSIVE COMPACT */
-        display: grid; grid-template-columns: repeat(3, 60px); gap: 20px; margin: 30px auto; width: fit-content; justify-items: center; }
-        .step { flex: 1; min-width: 60px; padding: 12px 8px; background: #333; border-radius: 6px; text-align: center; cursor: pointer; font-size: clamp(10px, 2.5vw, 14px); font-weight: 600; border: 2px solid #555; transition: 0.3s; }
-        .step.active { background: #ff6b00; border-color: #ff6b00; color: #000; }
-        .step.done { background: #00c853; }
-        .step:hover { border-color: #ff6b00; }
-        
-        /* CONTENT AREA */
-        .content { background: #222; padding: 20px; border-radius: 8px; margin: 20px 0; min-height: 300px; }
-        .content h2 { color: #ff6b00; margin-bottom: 15px; font-size: clamp(16px, 4vw, 24px); }
-        .form-group { margin: 12px 0; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: clamp(12px, 2vw, 14px); color: #aaa; }
-        .form-group input, .form-group select { width: 100%; padding: 10px; background: #333; border: 1px solid #555; color: #fff; border-radius: 4px; }
-        
-        /* BUTTONS */
-        .buttons { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-        .btn { flex: 1; min-width: 100px; padding: 12px; border: none; border-radius: 6px; font-size: clamp(12px, 2vw, 14px); font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .btn-prev { background: #555; color: #fff; }
-        .btn-prev:hover { background: #666; }
-        .btn-next { background: #ff6b00; color: #000; flex: 2; }
-        .btn-next:hover { background: #ff8533; }
-        .btn-next:disabled { background: #666; cursor: not-allowed; }
-        
-        /* RESPONSIVE: Mobile */
-        @media (max-width: 600px) {
-            .steps { gap: 2px; }
-            .step { min-width: 50px; padding: 8px 4px; }
-            .container { padding: 10px; }
-            .content { padding: 15px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
         }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: #000; padding: 20px; text-align: center; border-bottom: 3px solid #ff6800; margin-bottom: 30px; }
+        .header h1 { font-size: 32px; color: #ff6800; }
+        .header p { color: #aaa; margin-top: 5px; }
+        
+        /* STEPS */
+        .steps-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 30px 0; flex-wrap: wrap; }
+        .step { 
+            display: flex; flex-direction: column; align-items: center; 
+            padding: 10px; min-width: 80px; cursor: pointer; transition: all 0.3s;
+        }
+        .step-number { 
+            width: 50px; height: 50px; border-radius: 50%; 
+            background: #333; border: 2px solid #666; display: flex; align-items: center; 
+            justify-content: center; font-weight: bold; margin-bottom: 8px; font-size: 18px;
+        }
+        .step.active .step-number { background: #ff6800; border-color: #ff6800; color: #000; }
+        .step.completed .step-number { background: #4CAF50; border-color: #4CAF50; color: #fff; }
+        .step-label { font-size: 12px; text-align: center; color: #aaa; }
+        .step.active .step-label { color: #ff6800; font-weight: bold; }
+        .step.completed .step-label { color: #4CAF50; }
+        
+        /* CONTENT */
+        .content { background: #222; border-radius: 8px; padding: 40px; margin: 30px 0; }
+        .content h2 { font-size: 24px; color: #ff6800; margin-bottom: 20px; }
+        
+        /* FORM */
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; background: #333; border: 1px solid #666; border-radius: 4px; color: #fff; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #ff6800; }
+        
+        .time-slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
+        .time-slot { padding: 10px; background: #333; border: 1px solid #666; border-radius: 4px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .time-slot:hover { border-color: #ff6800; }
+        .time-slot.selected { background: #ff6800; border-color: #ff6800; color: #000; }
+        
+        .buttons { display: flex; gap: 10px; margin-top: 30px; justify-content: space-between; }
+        .btn { padding: 12px 30px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s; }
+        .btn-back { background: #555; color: #fff; }
+        .btn-back:hover { background: #666; }
+        .btn-next { background: #ff6800; color: #000; flex: 1; }
+        .btn-next:hover { background: #ff7a1a; }
+        .btn-next:disabled { background: #999; cursor: not-allowed; }
+        
+        /* CALENDAR */
+        .calendar { background: #333; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .calendar-header button { background: none; border: none; color: #ff6800; cursor: pointer; font-size: 18px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+        .calendar-day { padding: 8px; text-align: center; background: #222; border-radius: 4px; cursor: pointer; border: 1px solid transparent; }
+        .calendar-day:hover { border-color: #ff6800; }
+        .calendar-day.selected { background: #ff6800; color: #000; }
     </style>
 </head>
 <body>
@@ -50,57 +74,177 @@
             <p>Responsive Booking Flow</p>
         </div>
         
-        <div class="steps" id="stepsContainer">
-            <div class="step active" onclick="goToStep(1)">1. Date</div>
-            <div class="step" onclick="goToStep(2)">2. Vehicul</div>
-            <div class="step" onclick="goToStep(3)">3. Riders</div>
-            <div class="step" onclick="goToStep(4)">4. ID</div>
-            <div class="step" onclick="goToStep(5)">5. Contract</div>
-            <div class="step" onclick="goToStep(6)">6. Confirm</div>
-        </div>
+        <!-- STEPS INDICATOR -->
+        <div class="steps-container" id="stepsContainer"></div>
         
+        <!-- CONTENT AREA -->
         <div class="content" id="contentArea"></div>
-        
-        <div class="buttons">
-            <button class="btn btn-prev" onclick="prevStep()">← Back</button>
-            <button class="btn btn-next" id="nextBtn" onclick="nextStep()">Next →</button>
-        </div>
     </div>
     
     <script>
+        const steps = [
+            { id: 1, label: 'Select Time', title: 'Select Date & Time' },
+            { id: 2, label: 'Choose Vehicle', title: 'Choose Your Option' },
+            { id: 3, label: 'Riders & Races', title: 'Select Riders & Races' },
+            { id: 4, label: 'Verify ID', title: 'Verify ID' },
+            { id: 5, label: 'Contract', title: 'Contract Review' },
+            { id: 6, label: 'Confirm', title: 'Confirmation' }
+        ];
+        
         let currentStep = 1;
+        let bookingData = { date: '', time: '', vehicle: '', riders: 0, id: '', contract: false };
         
-        const steps = {
-            1: { title: 'Step 1: Select Date & Time', content: '<form class="form-group"><label>Date:</label><input type="date"><label>Time:</label><select><option>09:00</option><option>10:00</option></select></form>' },
-            2: { title: 'Step 2: Choose Vehicle', content: '<form class="form-group"><label>Vehicle:</label><select><option>ATV 250cc</option><option>ATV 400cc</option></select></form>' },
-            3: { title: 'Step 3: Riders & Races', content: '<form class="form-group"><label>Number of Riders:</label><input type="number" min="1" max="4"></form>' },
-            4: { title: 'Step 4: Verify ID', content: '<form class="form-group"><label>ID Number:</label><input type="text"><label>Full Name:</label><input type="text"></form>' },
-            5: { title: 'Step 5: Contract Review', content: '<p>Accept T&C, Insurance, Liability Waiver</p><input type="checkbox"> I accept all terms' },
-            6: { title: 'Step 6: Confirm & Payment', content: '<p><strong>Total: 918.00 RON</strong></p><p>Click next to proceed to payment</p>' }
-        };
-        
-        function goToStep(step) { currentStep = step; render(); }
-        function nextStep() { if (currentStep < 6) { currentStep++; render(); } }
-        function prevStep() { if (currentStep > 1) { currentStep--; render(); } }
-        
-        function render() {
-            // Update steps UI
-            document.querySelectorAll('.step').forEach((el, idx) => {
-                const stepNum = idx + 1;
-                el.classList.toggle('active', stepNum === currentStep);
-                el.classList.toggle('done', stepNum < currentStep);
-            });
-            
-            // Update content
-            const step = steps[currentStep];
-            document.getElementById('contentArea').innerHTML = `<h2>${step.title}</h2>${step.content}`;
-            
-            // Update buttons
-            document.querySelector('.btn-prev').disabled = currentStep === 1;
-            document.getElementById('nextBtn').disabled = currentStep === 6;
+        function renderSteps() {
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = steps.map(step => `
+                <div class="step ${step.id === currentStep ? 'active' : ''} ${step.id < currentStep ? 'completed' : ''}">
+                    <div class="step-number">${step.id}</div>
+                    <div class="step-label">${step.label}</div>
+                </div>
+            `).join('');
         }
         
-        render();
+        function renderContent() {
+            const content = document.getElementById('contentArea');
+            const step = steps[currentStep - 1];
+            
+            let html = `<h2>⏰ ${step.title}</h2>`;
+            
+            if (currentStep === 1) {
+                html += `
+                    <div class="form-group">
+                        <label>Date:</label>
+                        <input type="date" id="dateInput" value="${bookingData.date}">
+                    </div>
+                    <div class="form-group">
+                        <label>Time:</label>
+                        <div class="time-slots">
+                            ${['09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00'].map(t => `
+                                <div class="time-slot ${bookingData.time === t ? 'selected' : ''}" onclick="selectTime('${t}')">${t}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (currentStep === 2) {
+                html += `
+                    <div class="form-group">
+                        <label>Vehicle Type:</label>
+                        <select id="vehicleSelect" onchange="updateVehicle(this.value)">
+                            <option value="">Select vehicle...</option>
+                            <option value="electric" ${bookingData.vehicle === 'electric' ? 'selected' : ''}>Electric ATV (120 RON)</option>
+                            <option value="combustion" ${bookingData.vehicle === 'combustion' ? 'selected' : ''}>Combustion ATV (140 RON)</option>
+                            <option value="own" ${bookingData.vehicle === 'own' ? 'selected' : ''}>Bring Your Own (80 RON)</option>
+                        </select>
+                    </div>
+                `;
+            } else if (currentStep === 3) {
+                html += `
+                    <div class="form-group">
+                        <label>Number of Riders:</label>
+                        <select id="ridersSelect" onchange="updateRiders(this.value)">
+                            ${[1,2,3,4,5].map(n => `<option value="${n}" ${bookingData.riders == n ? 'selected' : ''}>${n}</option>`).join('')}
+                        </select>
+                    </div>
+                `;
+            } else if (currentStep === 4) {
+                html += `
+                    <div class="form-group">
+                        <label>ID Number:</label>
+                        <input type="text" id="idInput" placeholder="Enter ID number" value="${bookingData.id}" onchange="updateId(this.value)">
+                    </div>
+                `;
+            } else if (currentStep === 5) {
+                html += `
+                    <div class="form-group">
+                        <label><input type="checkbox" id="contractCheck" ${bookingData.contract ? 'checked' : ''} onchange="updateContract(this.checked)"> I agree to the terms and conditions</label>
+                    </div>
+                `;
+            } else if (currentStep === 6) {
+                html += `
+                    <div style="background: #1a1a1a; padding: 20px; border-radius: 4px;">
+                        <h3 style="color: #ff6800; margin-bottom: 15px;">Booking Summary</h3>
+                        <p><strong>Date:</strong> ${bookingData.date}</p>
+                        <p><strong>Time:</strong> ${bookingData.time}</p>
+                        <p><strong>Vehicle:</strong> ${bookingData.vehicle}</p>
+                        <p><strong>Riders:</strong> ${bookingData.riders}</p>
+                        <p style="margin-top: 20px; color: #4CAF50;">✓ Booking confirmed!</p>
+                    </div>
+                `;
+            }
+            
+            // Add buttons
+            html += `
+                <div class="buttons">
+                    ${currentStep > 1 ? '<button class="btn btn-back" onclick="previousStep()">← Back</button>' : ''}
+                    ${currentStep < 6 ? '<button class="btn btn-next" id="nextBtn" onclick="nextStep()">NEXT →</button>' : '<button class="btn btn-next" onclick="location.reload()">START OVER</button>'}
+                </div>
+            `;
+            
+            content.innerHTML = html;
+        }
+        
+        function selectTime(time) {
+            bookingData.time = time;
+            renderContent();
+        }
+        
+        function updateVehicle(vehicle) {
+            bookingData.vehicle = vehicle;
+            renderContent();
+        }
+        
+        function updateRiders(riders) {
+            bookingData.riders = parseInt(riders);
+            renderContent();
+        }
+        
+        function updateId(id) {
+            bookingData.id = id;
+        }
+        
+        function updateContract(checked) {
+            bookingData.contract = checked;
+        }
+        
+        function nextStep() {
+            // Validate current step
+            if (currentStep === 1 && !bookingData.date) {
+                alert('Please select a date');
+                return;
+            }
+            if (currentStep === 1 && !bookingData.time) {
+                alert('Please select a time');
+                return;
+            }
+            if (currentStep === 2 && !bookingData.vehicle) {
+                alert('Please select a vehicle');
+                return;
+            }
+            if (currentStep === 4 && !bookingData.id) {
+                alert('Please enter your ID');
+                return;
+            }
+            if (currentStep === 5 && !bookingData.contract) {
+                alert('Please accept the terms and conditions');
+                return;
+            }
+            
+            currentStep++;
+            if (currentStep > 6) currentStep = 6;
+            renderSteps();
+            renderContent();
+        }
+        
+        function previousStep() {
+            currentStep--;
+            if (currentStep < 1) currentStep = 1;
+            renderSteps();
+            renderContent();
+        }
+        
+        // Initialize
+        renderSteps();
+        renderContent();
     </script>
 </body>
 </html>
